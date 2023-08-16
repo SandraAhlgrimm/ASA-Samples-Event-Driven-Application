@@ -31,12 +31,17 @@ Let's jump in and get the event-driven app up and running in Azure. When you are
 
 The following prerequisites are required to use this application. Please ensure that you have them all installed locally.
 
-- [Azure Developer CLI](https://aka.ms/azd-install)
+- [Azure Developer CLI 1.2.0 or later](https://aka.ms/azd-install)
 - [Java 17 or later](https://learn.microsoft.com/en-us/java/openjdk/install)
+
+If you are using Azure Developer CLI with the version lower than 1.2.0, then you will need to enable the feature for Azure Spring Apps support manually by the following command:
+```bash
+azd config set alpha.springapp on
+```
 
 ### Quickstart
 
-To learn how to get started with any template, follow the steps in [this quickstart](https://learn.microsoft.com/azure/developer/azure-developer-cli/get-started?tabs=localinstall&pivots=programming-language-python) with this template(`Azure-Samples/todo-python-mongo`).
+To learn how to get started with any template, follow the steps in [this quickstart](https://learn.microsoft.com/azure/developer/azure-developer-cli/get-started?tabs=localinstall&pivots=programming-language-python) with this template(`Azure-Samples/ASA-Samples-Event-Driven-Application`).
 
 This quickstart will show you how to authenticate on Azure, initialize using a template, provision infrastructure and deploy code on Azure via the following commands:
 
@@ -44,15 +49,20 @@ This quickstart will show you how to authenticate on Azure, initialize using a t
 # Log in to azd. Only required once per-install.
 azd auth login
 
-# Enable Azure Spring Apps feature for AZD
-azd config set alpha.springapp on
-
 # First-time project setup. Initialize a project in the current directory, using this template. 
 azd init --template Azure-Samples/ASA-Samples-Event-Driven-Application
 
 # Provision and deploy to Azure
 azd up
 ```
+
+The template uses Azure Spring Apps [Standard consumption and dedicated plan](https://learn.microsoft.com/azure/spring-apps/overview#standard-consumption-and-dedicated-plan) by default. If you want to switch to `Standard` plan, you can use the following command before running `azd up`.
+
+```bash
+azd env set PLAN standard
+```
+
+If you have already provisioned the resources with the Standard consumption and dedicated plan and want to try the Standard plan, you need to run `azd down` first to delete the resources, and then run the above command and `azd up` again to provision and deploy.
 
 Open Azure Portal and find your Service Bus. Use the [Service Bus Explorer](https://learn.microsoft.com/azure/service-bus-messaging/explorer#send-a-message-to-a-queue-or-topic) to send messages to the `lower-case` queue, and navigate to the `upper-case` queue to check that there's a new message.
 

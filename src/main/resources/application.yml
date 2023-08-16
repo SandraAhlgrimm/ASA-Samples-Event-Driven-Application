@@ -1,13 +1,8 @@
 spring:
   cloud:
     azure:
-      keyvault:
-        secret:
-          property-sources[0]:
-            enabled: true
-            endpoint: ${AZURE_KEY_VAULT_ENDPOINT}
       servicebus:
-        connection-string: ${SERVICE-BUS-CONNECTION-STRING}
+        connection-string: ${SERVICE_BUS_CONNECTION_STRING}
     stream:
       function:
         definition: process
@@ -31,9 +26,14 @@ management:
   health:
     binders:
       enabled: true
-  endpoints:
-    web:
-      exposure:
-        include:
-          - bindings
-          - "*"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+logging:
+  level:
+    com:
+      azure:
+        core:
+          amqp: WARN
+        messaging: WARN        
