@@ -34,3 +34,6 @@ out/
 /.nb-gradle/
 
 .azure
+.env
+/target/
+.vscode
